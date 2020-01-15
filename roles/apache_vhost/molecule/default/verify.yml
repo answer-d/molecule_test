@@ -1,0 +1,31 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  pre_tasks:
+    - name: get httpd status
+      service_facts:
+
+    - name: get index.html
+      uri:
+        url: http://localhost:8080
+        method: GET
+      register: response
+
+  tasks:
+    - name: test port 8080 open
+      wait_for:
+        port: 8080
+        timeout: 5
+
+    - name: test http enabled and started
+      assert:
+        that:
+          - ansible_facts.services['httpd.service'].state == "running"
+          - ansible_facts.services['httpd.service'].status == "enabled"
+
+    - name: test httpd returns status 200 and has content
+      assert:
+        that:
+          - response.status == 200
+          - response.content is not none
