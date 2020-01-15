@@ -6,8 +6,12 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance
+  - name: centos7
     image: centos:7
+    privileged: true
+    command: /sbin/init
+  - name: centos6
+    image: centos:6
     privileged: true
     command: /sbin/init
 provisioner:
