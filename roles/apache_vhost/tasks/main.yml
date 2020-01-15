@@ -5,7 +5,7 @@
     state: present
 
 - name: start and enable httpd service
-  systemd:
+  service:
     name: httpd
     state: started
     enabled: true
