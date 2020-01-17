@@ -74,3 +74,50 @@ VerifierがAnsibleの場合は実行対象ホストの定義をインスタン�
 ```
 
 testinfraの場合はどうするんだろう…？
+
+## Driverを変えてみる
+
+### Vagrant
+
+<https://molecule.readthedocs.io/en/stable/configuration.html#vagrant>
+
+- `pip install vagrant`
+
+```yaml:molecule.yml
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+    box: centos/7
+    box_version: "1905.1"
+    memory: 1024
+    cpus: 1
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: ansible
+  lint:
+    name: ansible-lint
+```
+
+```yaml:playbook.yml
+---
+- name: Converge
+  hosts: all
+  become: true
+  roles:
+    - role: apache_vhost
+```
+
+そもそもdockerがDriverでも`become: true`しておくべきだったな
+
+- `verify.yml` は一緒
