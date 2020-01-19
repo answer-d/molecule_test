@@ -443,6 +443,16 @@ platforms:
 ```
 
 - デフォルトVPCが存在する必要があったのでVPC消して作り直した
+  - デフォルトVPCでなくても`create.yml`に`vpc_id`パラメータ追加すればなんとでもなる感じ
+
+```yaml
+    - name: Create security group
+      ec2_group:
+        name: "{{ security_group_name }}"
+        description: "{{ security_group_name }}"
+        rules: "{{ security_group_rules }}"
+        rules_egress: "{{ security_group_rules_egress }}"
+```
 
 ##### `create`シナリオ実行してインスタンスできること確認
 
