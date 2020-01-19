@@ -1,0 +1,21 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: ec2
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+    image_owner: amazon
+    image_name: amzn2-ami-hvm-2.*-x86_64-gp2
+    instance_type: t2.micro
+    vpc_subnet_id: subnet-0072a021e34ddd8ea
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: ansible
+  lint:
+    name: ansible-lint
